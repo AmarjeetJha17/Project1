@@ -1,0 +1,128 @@
+﻿@model DrugAbuseReportingSystem.Controllers.HomeViewModel
+@{
+    ViewData["Title"] = "Drug Abuse Reporting System";
+}
+
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4">Report Drug Abuse Anonymously</h1>
+                <p class="lead">Help make your community safer by reporting drug abuse incidents. Your identity will remain completely anonymous.</p>
+                <a asp-controller="Report" asp-action="Create" class="btn btn-primary btn-lg">File a Report</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="~/images/hero-image.png" alt="Community safety" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-lock text-primary display-4 mb-3"></i>
+                <h5 class="card-title">100% Anonymous</h5>
+                <p class="card-text">Your identity is completely protected. No personal information is collected or stored.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-clock text-success display-4 mb-3"></i>
+                <h5 class="card-title">24/7 Available</h5>
+                <p class="card-text">Report incidents anytime, anywhere. Our system is always available to receive your reports.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-heart text-danger display-4 mb-3"></i>
+                <h5 class="card-title">Community Safety</h5>
+                <p class="card-text">Help protect your community and support those struggling with drug abuse.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Commonly Abused Drugs</h2>
+        <div class="row">
+            @foreach (var drug in Model.DrugInformation)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@drug.ImagePath" class="card-img-top" alt="@drug.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@drug.Name</h5>
+                            <p class="card-text">@drug.Description</p>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#drugModal-@drug.Id">
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="drugModal-@drug.Id" tabindex="-1" aria-labelledby="drugModalLabel-@drug.Id" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="drugModalLabel-@drug.Id">@drug.Name</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="@drug.ImagePath" class="img-fluid mb-3" alt="@drug.Name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Effects:</h6>
+                                        <p>@drug.Effects</p>
+                                        <h6>Risks:</h6>
+                                        <p>@drug.Risks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Rehabilitation Centers</h2>
+        <div class="row">
+            @foreach (var center in Model.RehabilitationCenters)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="@center.ImagePath" class="img-fluid rounded-start h-100" alt="@center.Name">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@center.Name</h5>
+                                    <p class="card-text"><small class="text-muted">@center.Location</small></p>
+                                    <p class="card-text">@center.Description</p>
+                                    <p class="card-text"><strong>Services:</strong> @center.Services</p>
+                                    <p class="card-text"><strong>Contact:</strong> @center.ContactInfo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

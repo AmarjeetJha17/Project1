@@ -1,0 +1,236 @@
+﻿@model IEnumerable<DrugAbuseReportingSystem.Models.Report>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div>
+            <a asp-action="GeneratePdfReport" class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm mr-2">
+                <i class="fas fa-file-pdf fa-sm text-white-50"></i> Generate PDF
+            </a>
+            <a asp-action="GenerateExcelReport" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                <i class="fas fa-file-excel fa-sm text-white-50"></i> Generate Excel
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Pending Reports Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Pending Reports
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(r => r.Status == ReportStatus.Pending)</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Critical Severity Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Critical Severity
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(r => r.Severity == SeverityLevel.Critical)</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Reports Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Total Reports
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count()</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resolved Reports Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Resolved Reports
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(r => r.Status == ReportStatus.Resolved)</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Reports</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Filter Options:</div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#filterModal">Filter Reports</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-action="Dashboard">Show All</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Drug Type</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ReportDate.ToShortDateString()</td>
+                                <td>@item.Location</td>
+                                <td>@item.DrugType</td>
+                                <td>
+                                    <span class="badge @GetSeverityBadgeClass(item.Severity)">
+                                        @item.Severity
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge @GetStatusBadgeClass(item.Status)">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a asp-action="ReportDetails" asp-route-id="@item.ReportId" class="btn btn-info btn-sm">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Modal-->
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel">Filter Reports</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form asp-action="SearchReports" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="searchTerm">Search Term</label>
+                        <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Location or description">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="fromDate">From Date</label>
+                            <input type="date" class="form-control" id="fromDate" name="fromDate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="toDate">To Date</label>
+                            <input type="date" class="form-control" id="toDate" name="toDate">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="drugType">Drug Type</label>
+                            <select class="form-control" id="drugType" name="drugType">
+                                <option value="">All Types</option>
+                                @foreach (var type in Enum.GetValues(typeof(DrugType)))
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="severity">Severity</label>
+                            <select class="form-control" id="severity" name="severity">
+                                <option value="">All Levels</option>
+                                @foreach (var level in Enum.GetValues(typeof(SeverityLevel)))
+                                {
+                                    <option value="@level">@level</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Apply Filters</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetSeverityBadgeClass(SeverityLevel severity)
+    {
+        return severity switch
+        {
+            SeverityLevel.Low => "bg-success",
+            SeverityLevel.Medium => "bg-warning text-dark",
+            SeverityLevel.High => "bg-danger",
+            SeverityLevel.Critical => "bg-dark",
+            _ => "bg-secondary"
+        };
+    }
+
+    public string GetStatusBadgeClass(ReportStatus status)
+    {
+        return status switch
+        {
+            ReportStatus.Pending => "bg-secondary",
+            ReportStatus.UnderReview => "bg-info",
+            ReportStatus.Resolved => "bg-success",
+            ReportStatus.Dismissed => "bg-dark",
+            _ => "bg-light text-dark"
+        };
+    }
+}

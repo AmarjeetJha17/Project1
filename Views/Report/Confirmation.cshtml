@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Report Submitted";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0"><i class="fas fa-check-circle me-2"></i>Report Successfully Submitted</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success mb-3"></i>
+                        <h4>Thank You for Your Report</h4>
+                    </div>
+                    <p class="lead">Your anonymous report has been successfully submitted to our system.</p>
+                    <p>Our team will review the information you provided and take appropriate action.</p>
+                    <p class="text-muted">Remember: Your identity remains completely anonymous throughout this process.</p>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary me-md-2">
+                            <i class="fas fa-home me-1"></i> Return Home
+                        </a>
+                        <a asp-controller="Report" asp-action="Create" class="btn btn-outline-secondary">
+                            <i class="fas fa-plus me-1"></i> Submit Another Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

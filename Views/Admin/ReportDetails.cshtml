@@ -1,0 +1,113 @@
+﻿@model DrugAbuseReportingSystem.Models.Report
+@{
+    ViewData["Title"] = "Report Details";
+}
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Report Details</h1>
+        <a asp-action="Dashboard" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Report #@Model.ReportId</h6>
+            <div>
+                <span class="badge @(Model.Status == ReportStatus.Pending ? "bg-secondary" :
+                                                          Model.Status == ReportStatus.UnderReview ? "bg-info" :
+                                                          Model.Status == ReportStatus.Resolved ? "bg-success" : "bg-dark")">
+                    @Model.Status
+                </span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="30%">Report Date</th>
+                                <td>@Model.ReportDate.ToString("f")</td>
+                            </tr>
+                            <tr>
+                                <th>Location</th>
+                                <td>@Model.Location</td>
+                            </tr>
+                            <tr>
+                                <th>Drug Type</th>
+                                <td>@Model.DrugType</td>
+                            </tr>
+                            <tr>
+                                <th>Severity</th>
+                                <td>
+                                    <span class="badge @(Model.Severity == SeverityLevel.Low ? "bg-success" :
+                                                                                                  Model.Severity == SeverityLevel.Medium ? "bg-warning text-dark" :
+                                                                                                  Model.Severity == SeverityLevel.High ? "bg-danger" : "bg-dark")">
+                                        @Model.Severity
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Anonymous Contact</th>
+                                <td>@(string.IsNullOrEmpty(Model.AnonymousContact) ? "Not Provided" : Model.AnonymousContact)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <div class="mb-4">
+                            <h6>Attached Image</h6>
+                            <img src="@Model.ImagePath" class="img-fluid rounded border" alt="Report Image" style="max-height: 300px;">
+                            <div class="mt-2">
+                                <a href="@Model.ImagePath" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-expand me-1"></i> View Full Image
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h6>Description</h6>
+                <div class="border p-3 bg-light rounded">
+                    @Model.Description
+                </div>
+            </div>
+
+            <form asp-action="UpdateReportStatus" method="post">
+                <input type="hidden" name="id" value="@Model.ReportId" />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="status">Update Status</label>
+                            <select name="status" class="form-control">
+                                @foreach (var status in Enum.GetValues(typeof(ReportStatus)))
+                                {
+                                    <option value="@status" selected="@(status.Equals(Model.Status))">@status</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="adminNotes">Admin Notes</label>
+                            <textarea name="adminNotes" class="form-control" rows="2" placeholder="Add any notes or comments...">@Model.AdminNotes</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Update Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

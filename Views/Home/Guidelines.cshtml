@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Reporting Guidelines";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2><i class="fas fa-info-circle me-2"></i>Reporting Guidelines</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4 class="text-primary">Before You Submit a Report</h4>
+                        <p>Please read these guidelines carefully to ensure your report is effective and can be properly processed by our team.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="fas fa-check-circle text-success me-2"></i>What to Include</h5>
+                        <ul>
+                            <li><strong>Accurate Location:</strong> Provide as specific a location as possible (address, landmark, building name).</li>
+                            <li><strong>Detailed Description:</strong> Include dates, times, descriptions of individuals (without identifying information), and specific activities observed.</li>
+                            <li><strong>Drug Type:</strong> If known, specify the type of drug being used or distributed.</li>
+                            <li><strong>Safety Concerns:</strong> Note any immediate dangers or threats to public safety.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="fas fa-times-circle text-danger me-2"></i>What Not to Include</h5>
+                        <ul>
+                            <li><strong>Personal Information:</strong> Never include your own or others' identifying information.</li>
+                            <li><strong>Speculation:</strong> Stick to facts you have directly observed.</li>
+                            <li><strong>Illegal Actions:</strong> Do not attempt to intervene or gather evidence yourself.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="fas fa-shield-alt text-warning me-2"></i>Safety First</h5>
+                        <p>Your safety and anonymity are our top priorities:</p>
+                        <ul>
+                            <li>Never confront individuals you suspect of drug abuse.</li>
+                            <li>Do not put yourself in danger to gather information.</li>
+                            <li>If you witness a crime in progress or an emergency situation, contact local law enforcement immediately.</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-question-circle me-2"></i>What Happens Next?</h5>
+                        <p>After submission, your report will be reviewed by our team. We analyze patterns and work with appropriate authorities when necessary. Due to the anonymous nature of this system, we cannot provide updates on specific reports.</p>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a asp-controller="Report" asp-action="Create" class="btn btn-primary btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i>I Understand - File a Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

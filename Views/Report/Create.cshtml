@@ -1,0 +1,88 @@
+﻿@model DrugAbuseReportingSystem.Models.Report
+@{
+    ViewData["Title"] = "File a Report";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Anonymous Drug Abuse Report</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Location" class="form-label">Incident Location*</label>
+                            <input asp-for="Location" class="form-control" placeholder="Street address, neighborhood, or landmark">
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="DrugType" class="form-label">Type of Drug*</label>
+                                <select asp-for="DrugType" class="form-select">
+                                    <option value="">Select drug type</option>
+                                    <option value="@DrugType.Cannabis">Cannabis (Marijuana, Weed)</option>
+                                    <option value="@DrugType.Cocaine">Cocaine</option>
+                                    <option value="@DrugType.Heroin">Heroin</option>
+                                    <option value="@DrugType.Methamphetamine">Methamphetamine</option>
+                                    <option value="@DrugType.MDMA">MDMA (Ecstasy)</option>
+                                    <option value="@DrugType.PrescriptionDrugs">Prescription Drugs Abuse</option>
+                                    <option value="@DrugType.SyntheticDrugs">Synthetic Drugs (K2, Spice, Bath Salts)</option>
+                                    <option value="@DrugType.Other">Other</option>
+                                </select>
+                                <span asp-validation-for="DrugType" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Severity" class="form-label">Severity Level*</label>
+                                <select asp-for="Severity" class="form-select">
+                                    <option value="">Select severity</option>
+                                    <option value="@SeverityLevel.Low">Low (Occasional use)</option>
+                                    <option value="@SeverityLevel.Medium">Medium (Regular use, small quantities)</option>
+                                    <option value="@SeverityLevel.High">High (Frequent use, large quantities)</option>
+                                    <option value="@SeverityLevel.Critical">Critical (Dealing, manufacturing, public endangerment)</option>
+                                </select>
+                                <span asp-validation-for="Severity" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Detailed Description*</label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Please provide as much detail as possible about the incident"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ImageFile" class="form-label">Upload Image (Optional)</label>
+                            <input asp-for="ImageFile" class="form-control" type="file" accept="image/*">
+                            <small class="text-muted">Max file size: 5MB. Accepted formats: JPG, PNG</small>
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AnonymousContact" class="form-label">Anonymous Contact (Optional)</label>
+                            <input asp-for="AnonymousContact" class="form-control" placeholder="Email, phone, or other contact method (will remain anonymous)">
+                            <span asp-validation-for="AnonymousContact" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" required id="termsCheck">
+                                <label class="form-check-label" for="termsCheck">
+                                    I have read and agree to the <a asp-controller="Home" asp-action="Terms" target="_blank">Terms of Service</a> and <a asp-controller="Home" asp-action="Guidelines" target="_blank">Reporting Guidelines</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
